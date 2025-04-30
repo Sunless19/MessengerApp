@@ -1,0 +1,11 @@
+<div class="login-container">
+    <div class="box">
+      <h2>Welcome!</h2>
+      <input [(ngModel)]="username" placeholder="Username" class="input-field" name="username" />
+      <input [(ngModel)]="password" placeholder="Password" class="input-field" type="password" name="password" />
+      <button (click)="login()" class="submit-button">Login</button>
+      <button (click)="goToRegister()" class="submit-button"> Register</button>
+      <button (click)="goToRecover()" class="alternative-submit-button">Recover Password</button>
+    </div>
+  </div>
+  

@@ -1,0 +1,24 @@
+services:
+- type: pserv
+  name: postgresql
+  plan: standard  
+  env: docker  
+  autoDeploy: false  
+  disk:
+    name: postgresql
+    mountPath: /var/lib/postgresql/data
+    sizeGB: 10
+  envVars:
+    - fromGroup: postgresql
+
+envVarGroups:
+- name: postgresql
+  envVars:
+    - key: POSTGRES_DB
+      value: mydatabase 
+    - key: POSTGRES_USER
+      value: myuser 
+    - key: POSTGRES_PASSWORD
+      generateValue: true  
+    - key: POSTGRES_ROOT_PASSWORD
+      generateValue: true 

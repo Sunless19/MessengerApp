@@ -1,0 +1,91 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: nestjs_mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}   
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend_network
+
+  api:
+    build:
+      context: ./ 
+      dockerfile: Dockerfile
+    container_name: nestjs-container
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db 
+    networks:
+      - backend_network
+
+  # api2:
+  #   build:
+  #     context: ./ 
+  #     dockerfile: Dockerfile
+  #   container_name: nestjs-container2
+  #   ports:
+  #     - "3002"  
+  #     - "3000"
+  #     - "3001"
+  #   environment:
+  #     DB_HOST: ${DB_HOST}
+  #     DB_PORT: ${DB_PORT}
+  #     DB_USERNAME: ${DB_USERNAME}
+  #     DB_PASSWORD: ${DB_PASSWORD}
+  #     DB_DATABASE: ${DB_DATABASE}
+  #   depends_on:
+  #     - db 
+  #   networks:
+  #     - backend_network
+  
+  frontend:
+    build:
+      context: ../frontend/frontend  # <<< Adjust this to your frontend folder path
+      dockerfile: Dockerfile     # <<< If different, or just Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:80  
+    container_name: frontend-container
+    ports:
+      - "8080:80"   # Serve frontend on localhost:8080
+    depends_on:
+      - api
+    networks:
+      - backend_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nestjs-nginx
+    ports:
+      - "80:80" 
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  
+    depends_on:
+      - api
+    networks:
+      - backend_network
+
+volumes:
+  mysql_data:
+
+networks:
+  backend_network:
+    driver: bridge 

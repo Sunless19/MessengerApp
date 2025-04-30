@@ -1,0 +1,24 @@
+<form #registerForm="ngForm" (ngSubmit)="register(registerForm)" class="register-form">
+  <div class="box">
+    <h2>Register</h2>
+    <input [(ngModel)]="user.username" name="username" class="input-field" placeholder="Username" [pattern]="usernamePattern" #username="ngModel" required />
+    <div *ngIf="username.invalid && username.touched">
+      <p>Username is required and must be alphanumeric</p>
+    </div>
+
+    <input [(ngModel)]="user.email" name="email" class="input-field" placeholder="Email" type="email" [pattern]="emailPattern" #email="ngModel" required />
+    <div *ngIf="email.invalid && email.touched">
+      <p>Email is required and must be in a valid format</p>
+    </div>
+
+    <input [(ngModel)]="user.password" name="password" class="input-field" placeholder="Password" type="password" [pattern]="passwordPattern" #password="ngModel" required />
+    <div *ngIf="password.invalid && password.touched">
+      <p>Password is required and must contain at least 6 characters and a number</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+      <button type="submit" class="submit-button" [disabled]="registerForm.invalid">Register</button>
+      <button (click)="login()" class="submit-button">Login</button>
+    </div>
+  </div>
+</form>

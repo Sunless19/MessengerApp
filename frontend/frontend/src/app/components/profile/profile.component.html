@@ -1,0 +1,23 @@
+<div class="profile-container">
+    <div class="profile-content">
+      <div class="profile-section">
+        <h2 class="username">{{username}}</h2>
+        <button class="action-button" (click)="createConversation()">Create conversation</button>
+        <button class="action-button" (click)="exploreConversations()">Explore conversations</button>
+      </div>
+  
+      <div class="conversations-section">
+        <h2 class="section-title">My conversations</h2>
+        <ul class="conversation-list">
+          <li
+            class="conversation-item"
+            *ngFor="let conversation of conversations"
+            (click)="navigateToConversation(conversation.id)"
+          >
+            {{ conversation.title }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,21 @@
+<div class="chat-container">
+  <h1>{{chatName}}</h1>
+
+  <div class="messages">
+
+    <div *ngFor="let msg of staticMessages" [ngClass]="{'self': msg.startsWith(name + ':'), 'other': !msg.startsWith(name + ':')}">
+      <p class="name">{{ msg.split(':')[0] }}</p>
+      <p class="text">{{ msg.split(':').slice(1).join(':') }}</p>
+    </div>  
+
+    <div *ngFor="let msg of messages" [ngClass]="{'self': msg.startsWith(name + ':'), 'other': !msg.startsWith(name + ':')}">
+      <p class="name">{{ msg.split(':')[0] }}</p>
+      <p class="text">{{ msg.split(':').slice(1).join(':') }}</p>
+    </div>    
+  </div>
+
+  <div class="message-input">
+    <input [(ngModel)]="message" placeholder="Scrie un mesaj" class="input-field" />
+    <button (click)="sendMessage()" class="send-button">Trimite</button>
+  </div>
+</div>

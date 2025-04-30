@@ -1,0 +1,42 @@
+<div class="create-container">
+    <form (submit)="createConversation($event)">
+      <h1 style="text-align: center;">Create</h1>
+    
+      <input
+        type="text"
+        placeholder="Title"
+        class="input-field"
+        [(ngModel)]="title"
+        name="name"
+        required
+      />
+  
+      <textarea
+        placeholder="#tags #tags_2 #history"
+        class="input-field"
+        [(ngModel)]="tags"
+        name="tags"
+      ></textarea>
+
+      <div class="tags-container" style="display: flex; flex-direction: column;">
+        <label for="tags">Select Tags</label>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          placeholder="Search tags..." 
+          class="input-field" 
+          name="queryTag"  
+          (input)="filterTags()"/>
+      
+          <select multiple [(ngModel)]="tags" name="tags">
+            <option *ngFor="let tag of filteredTags" [value]="tag">
+              #{{ tag }}
+            </option>
+          </select>
+          
+      </div>
+  
+      <button type="submit" class="submit-button">Create conversation</button>
+    </form>
+  </div>
+  
